@@ -15,10 +15,29 @@ def calculate_payment(principal, annual_rate, years, periods_per_year):
     payment = principal * (i * (1 + i)**n) / ((1 + i)**n - 1)
     return payment
 
+def calculate_payment(principal, annual_rate, years, periods_per_year):
+    """Calculates the amortized periodic payment."""
+    n = int(years * periods_per_year)
+    
+    # FIX: Ensure there is always at least 1 payment period
+    if n == 0:
+        n = 1
+        
+    if annual_rate == 0:
+        return principal / n
+    
+    i = (annual_rate / 100) / periods_per_year
+    
+    payment = principal * (i * (1 + i)**n) / ((1 + i)**n - 1)
+    return payment
+
 def generate_schedule(principal, annual_rate, years, periods_per_year):
     """Generates the full amortization schedule DataFrame."""
     n = int(years * periods_per_year)
     
+    if n == 0:
+        n = 1
+        
     if annual_rate == 0:
         payment = principal / n
         i = 0
@@ -197,4 +216,5 @@ def main():
     )
 
 if __name__ == "__main__":
+
     main()
